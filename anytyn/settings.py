@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
-
+import os
+from django.contrib.messages import constants as messages
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
@@ -40,7 +41,8 @@ INSTALLED_APPS = [
     'category',
     'accounts',
     'store',
-    'cart'
+    'cart',
+    # 'django_email_verification',
 ]
 
 MIDDLEWARE = [
@@ -132,3 +134,27 @@ STATICFILES_DIRS = ['anytyn/static',]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR/'media'
+
+
+
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+}
+
+# CONFIGURING THE EMAIL smtp
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'ikechiauxtynokorie@gmail.com'
+EMAIL_HOST_PASSWORD = 'icyazbfppjbizcvu'
+# EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
+# EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'default from email'
+# EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD2')
+
+
+
+# import socket
+# socket.getaddrinfo('smpt.gmail.com', 255)
+

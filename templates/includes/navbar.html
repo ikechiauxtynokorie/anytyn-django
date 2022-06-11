@@ -62,10 +62,17 @@
         <div class="col-lg-3 col-sm-6 col-8 order-2 order-lg-3">
                     <div class="d-flex justify-content-end mb-3 mb-lg-0">
                         <div class="widget-header">
-                            <small class="title text-muted">Welcome guest!</small>
+                            {% if user.id is None %}
+                            <small class="title text-muted">Welcome Guest!</small>
                             <div> 
-                                <a href="./signin.html">Sign in</a> <span class="dark-transp"> | </span>
-                                <a href="./register.html"> Register</a>
+                                <a href="{% url 'login'%}">Sign in</a> <span class="dark-transp"> | </span>
+                                <a href="{% url 'register'%}"> Register </a>
+                                
+                            {% else %}
+                                <small class="title text-muted">Welcome {{ user.first_name }}</small>
+                                <a href="{% url 'dashboard'%}">Dashboard</a> <span class="dark-transp"> | </span>
+                                <a href="{% url 'logout'%}">Sign Out </a>
+                            {% endif %}
                             </div>
                         </div>
                         <a href="{% url 'cart' %}" class="widget-header pl-3 ml-3">
