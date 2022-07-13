@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'accounts',
     'store',
     'cart',
+    'orders',
     # 'django_email_verification',
 ]
 
@@ -60,7 +61,7 @@ ROOT_URLCONF = 'anytyn.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [BASE_DIR/'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

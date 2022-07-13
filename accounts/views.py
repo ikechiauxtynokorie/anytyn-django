@@ -111,19 +111,18 @@ def login(request):
                                 item.save()
             except:
                 pass
-            auth.login(request, user )
-            messages.success(request, 'You are logged in, welcome to a new experience!')
+            
+            auth.login(request,user)           
             url = request.META.get('HTTP_REFERER')
             try:
                 query = requests.utils.urlparse(url).query
-                print('query ->',query)
-                #next=/cart/checkout/
+                    #next=/cart/checkout/
                 params = dict(x.split('=') for x in query.split('&'))
                 if 'next' in params:
                     nextPage = params['next']
-                    return redirect(nextPage)   
-                
+                    return redirect(nextPage)    
             except:
+                messages.success(request, 'You are logged in, welcome to a new experience!')                
                 return redirect('dashboard')
         else:
             messages.error(request, 'Invalid Credentials Entered, please try again! ')
