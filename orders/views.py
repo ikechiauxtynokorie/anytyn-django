@@ -38,9 +38,9 @@ def place_order(request, total=0, quantity=0,):
             data.email = form.cleaned_data['email']
             data.address_line_1 = form.cleaned_data['address_line_1']
             data.address_line_2 = form.cleaned_data['address_line_2']
-            data.city = form.cleaned_data['city']
-            data.state = form.cleaned_data['state']
             data.country = form.cleaned_data['country']
+            data.state = form.cleaned_data['state']
+            data.city = form.cleaned_data['city']
             data.order_note = form.cleaned_data['order_note']
             data.order_total = grand_total
             data.tax = tax
@@ -56,7 +56,7 @@ def place_order(request, total=0, quantity=0,):
             order_number = current_date + str(data.id)
             data.order_number = order_number
             data.save()
-        return redirect('checkout')  
+            return redirect('checkout')  
     else:
         return redirect('checkout')
 
