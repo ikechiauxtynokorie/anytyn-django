@@ -46,9 +46,9 @@ def place_order(request, total=0, quantity=0,):
             data.save()
                       
             #this gives an order id through the use of the pk
-            yr = int(datetime.date.today.strftime('%Y'))
-            mt = int(datetime.date.today.strftime('%m'))
-            dt = int(datetime.date.today.strftime('%d'))
+            yr = int(datetime.date.today().strftime('%Y'))
+            mt = int(datetime.date.today().strftime('%m'))
+            dt = int(datetime.date.today().strftime('%d'))
             d = datetime.date(yr,mt,dt)
             current_date = d.strftime('%Y %m %d')
             order_number = current_date + str(data.id)
