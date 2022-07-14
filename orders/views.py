@@ -16,9 +16,7 @@ def place_order(request, total=0, quantity=0,):
     form = OrderForm()
     if cart_count <=0:
         return redirect('store') 
-    else:
-        print(form.errors)
-     
+         
     grand_total = 0
     tax = 0
     for cart_item in cart_items:
@@ -57,8 +55,8 @@ def place_order(request, total=0, quantity=0,):
             data.order_number = order_number
             data.save()
             return redirect('checkout')  
-    else:
-        return redirect('checkout')
+        else:
+            return redirect('checkout')
 
     
    

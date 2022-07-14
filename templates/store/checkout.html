@@ -31,7 +31,7 @@
                 <div class= "form-row">
                     <div class = "col form-group">
                     <label for= "">Phone Number</label>
-                    <input type= "text" name= "phone_number" class= "form-control">
+                    <input type= "text" name= "phone" class= "form-control">
                     </div>
                     <div class = "col form-group">
                     <label for= "">Email</label>
@@ -40,11 +40,11 @@
                 </div>
                     <div class= "form-row">
                     <div class = "col form-group">
-                    <label for="">Address_Line_1</label>
+                    <label for="">Address Line 1</label>
                     <input type= "text" name= "address_line_1" class= "form-control" required>
                     </div>
                     <div class = "col form-group">
-                    <label for= "">Address_Line_2</label>
+                    <label for= "">Address Line 2</label>
                     <input type= "text" name= "addres_line_2" class= "form-control">
                     </div>
                 </div>
@@ -133,10 +133,10 @@
                 </p>
                           
             {% comment %} <a href="{% url 'checkout'%}" class="btn btn-primary btn-block"> Place Order </a>  {% endcomment %}
-            <button type="submit" class="btn btn-primary btn-block"> place_order </button> 
+                <button type="submit" name = "submit" class="btn btn-primary btn-block"> place_order </button> 
             
-            <a href="{% url 'store'%}" class="btn btn-light btn-block">Continue Shopping</a>
-        </form>
+                <a href="{% url 'store'%}" class="btn btn-light btn-block">Continue Shopping</a>
+                </form>
             
             
             </div> <!-- card-body.// -->
