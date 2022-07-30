@@ -6,6 +6,7 @@ from store.models import Product, Variation
 
 
 
+
 # Create your models here.
 
 class Payment(models.Model):
@@ -26,7 +27,7 @@ class Order(models.Model):
         ('Accepted','Accepted'),
         ('Completed','Completed'),
         ('Cancelled','Cancelled'),
-        )
+    )
     user = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True)
     payment = models.ForeignKey(Payment,on_delete=models.SET_NULL,blank=True, null=True)
     order_number = models.CharField(max_length=50)
@@ -50,14 +51,17 @@ class Order(models.Model):
     
     
     def full_name(self):
-        return f'(self.first_name) (self.last_name)'
+        return (f'{self.first_name} {self.last_name}')
+    
+    def full_address(self):
+        return f'{self.address_line_1} {self.address_line_2}'
     
     def __str__(self):
         return self.first_name
     
        
 class OrderProduct(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    orders = models.ForeignKey(Order, on_delete=models.CASCADE)
     payment = models.ForeignKey(Payment, on_delete=models.SET_NULL,blank=True,null=True)
     user = models.ForeignKey(Account, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
