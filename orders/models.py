@@ -8,7 +8,6 @@ from store.models import Product, Variation
 
 
 # Create your models here.
-
 class Payment(models.Model):
     user = models.ForeignKey(Account, on_delete=models.CASCADE)
     payment_id = models.CharField(max_length=100)
