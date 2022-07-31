@@ -10,6 +10,7 @@ from .models import Order
 
 def payments(request):
     
+    
     return render(request,'orders/payments.html')
 
 # Create your views here.
@@ -60,7 +61,7 @@ def place_order(request, total=0, quantity=0,):
             data.order_number = order_number
             data.save()
             
-            order = Order.objects.get(user = current_user, is_ordered = False, order_number = order_number,)
+            order = Order.objects.filter(user = current_user, is_ordered = False, order_number = order_number)
             context = {
                 'order':order,
                 'cart_items' : cart_items,
@@ -68,9 +69,9 @@ def place_order(request, total=0, quantity=0,):
                 'tax':tax,
                 'grand_total':grand_total,   
             }
-            return render(request,'orders/payments.html',context)  
-        else:
-            return redirect('checkout')
+            return render(request,'orders/payments.html', context)  
+    else:
+        return redirect('checkout')
 
     
    
