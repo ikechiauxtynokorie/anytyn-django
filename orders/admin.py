@@ -7,10 +7,10 @@ from .models import Payment, Order, OrderProduct
 
 # Register your models here.
 
-# class OrderProductInline(admin.TabularInline):
-#     model = OrderProduct
-#     readonly_fields = ('payment', 'user', 'product', 'quantity', 'product_price', 'ordered')
-#     extra = 0
+class OrderProductInline(admin.TabularInline):
+    model = OrderProduct
+    readonly_fields = ('payment', 'user', 'product', 'quantity', 'product_price', 'ordered')
+    extra = 0
 
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['order_number', 'first_name', 'last_name','phone', 'email', 'city', 'order_total', 'tax', 'status', 'is_ordered', 'created_at']

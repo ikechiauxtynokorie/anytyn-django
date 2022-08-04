@@ -57,12 +57,12 @@ def place_order(request, total=0, quantity=0,):
             mt = int(datetime.date.today().strftime('%m'))
             dt = int(datetime.date.today().strftime('%d'))
             d = datetime.date(yr,mt,dt)
-            current_date = d.strftime('%Y %m %d')
+            current_date = d.strftime('%Y%m%d')
             order_number = current_date + str(data.id)
             data.order_number = order_number
             data.save()
             
-            order = Order.objects.filter(user = current_user, is_ordered = False, order_number = order_number)
+            order = Order.objects.get(user = current_user, is_ordered = False, order_number = order_number)
             context = {
                 'order':order,
                 'cart_items' : cart_items,
