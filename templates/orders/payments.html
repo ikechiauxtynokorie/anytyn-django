@@ -167,7 +167,7 @@
         paypal.Buttons({
           style: {
             shape: 'rect',
-            color: 'gold',
+            color: 'blue',
             layout: 'vertical',
             label: 'checkout',
             
@@ -180,11 +180,30 @@
             });
           },
           // Finalize the transaction
+        
           onApprove: function(data, actions) {
             return actions.order.capture().then(function(orderData) {
               
               // Full available details
               console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+              sendData(),
+              function sendData(){
+                fetch(url,{
+                  method: "POST",
+                  headers:{
+                    "content-type": "application/json",
+                    "X-CSRFToken":csrftoken,
+                  },
+                  body : JSON.stringify({
+                    orderID : orderID,
+                    tranID : details.id,
+                    payment_method : payment_method,
+                    status:details.status,
+                  }),
+                })
+                  //.then((response) => response.json())  
+                  //.then((data) => console.log(data));
+              }
   
               // Show a success message within this page, e.g.
               const element = document.getElementById('paypal-button-container');
