@@ -11,9 +11,9 @@ import json
 
 def payments(request):
     body = json.loads(request.body)
-    order = Order.objects.get(user = request.user, is_order = False, order_number= body['orderID'])
+    order = Order.objects.get(user = request.user, is_ordered = False, order_number= body['orderID'])
     #store transactions inside payment model
-    payment = payment(
+    payment = Payment(
         user = request.user,
         payment_id = body['tranID'],
         payment_method = body['payment_method'],
