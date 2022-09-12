@@ -185,7 +185,8 @@
             return actions.order.capture().then(function(orderData) {
               
               // Full available details
-              console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+              //console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+              console.log(details);
               sendData(),
               function sendData(){
                 fetch(url,{
