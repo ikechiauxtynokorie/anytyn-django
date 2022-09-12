@@ -30,7 +30,7 @@ def payments(request):
     
     #move products to products table
     
-    cart_items = CartItem.objects.get(user=request.user)
+    cart_items = CartItem.objects.filter(user=request.user)
     for items in cart_items:
         orderproduct = OrderProduct()
         orderproduct.order_id = order.id
@@ -51,9 +51,9 @@ def payments(request):
     
     #reduce quantity from stock
     
-    product = Product.objects.get(id=item.id)
-    product.stock -= item.quantity
-    product.save()
+    # product = Product.objects.get(id=item.id)
+    # product.stock -= item.quantity
+    # product.save()
     #clear the cart table after payment
     #send email of products purchased to customer
     #
