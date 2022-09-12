@@ -31,7 +31,7 @@ def payments(request):
     #move products to products table
     
     cart_items = CartItem.objects.filter(user=request.user)
-    for items in cart_items:
+    for item in cart_items:
         orderproduct = OrderProduct()
         orderproduct.order_id = order.id
         orderproduct.payment = payment
@@ -51,12 +51,32 @@ def payments(request):
     
     #reduce quantity from stock
     
-    # product = Product.objects.get(id=item.id)
-    # product.stock -= item.quantity
-    # product.save()
+    product = Product.objects.get(id=item.id)
+    product.stock -= item.quantity
+    product.save()
     #clear the cart table after payment
+    
+    CartItem.objects.filter(user=request.user).delete()
     #send email of products purchased to customer
-    #
+    
+    mail_subject = "Thank you for your order"
+    message = render_to_string('orders/order_received_email.html',{
+        'user':request.user,
+        'order':order
+    })
+    
+    to_email = request.user.email
+    send_email = EmailMessage(mail_subject,message, to=[to_email])
+    send_email.send()
+    
+    
+    #send order number and transaction id back to sendData using json
+    data = {
+        'order_number':order.order_number,
+        'transID':payment.payment_id,
+    }
+    
+    return jsonResponse(data)
     
     
     return render(request,'orders/payments.html')
