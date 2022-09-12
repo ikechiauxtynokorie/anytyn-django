@@ -4,8 +4,9 @@ from django.views.decorators.csrf import csrf_exempt
 from cart.models import CartItem
 from .forms import OrderForm
 import datetime
-from .models import Order, Payment
+from .models import Order, Payment, OrderProduct
 import json
+from store.models import Product
 
 
 
@@ -25,6 +26,38 @@ def payments(request):
     order.payment = payment
     order.is_ordered = True
     order.save()
+    
+    
+    #move products to products table
+    
+    cart_items = CartItem.objects.get(user=request.user)
+    for items in cart_items:
+        orderproduct = OrderProduct()
+        orderproduct.order_id = order.id
+        orderproduct.payment = payment
+        orderproduct.user_id = request.user.id
+        orderproduct.product_id = item.product_id
+        orderproduct.quantity = item.quantity
+        orderproduct.product_price = item.product.price
+        orderproduct.is_ordered = True
+        orderproduct.save()
+        
+        cart_item = CartItem.objects.get(id=item.id)
+        product_variation = cart_item.variations.all()
+        orderproduct = OrderProduct.objects.get(id=orderproduct.id)
+        orderproduct.variations.set(product_variation)
+        orderproduct.save()
+        
+    
+    #reduce quantity from stock
+    
+    product = Product.objects.get(id=item.id)
+    product.stock -= item.quantity
+    product.save()
+    #clear the cart table after payment
+    #send email of products purchased to customer
+    #
+    
     
     return render(request,'orders/payments.html')
 
