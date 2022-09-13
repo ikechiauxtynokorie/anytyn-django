@@ -17,6 +17,7 @@ class OrderAdmin(admin.ModelAdmin):
     list_filter = ['status', 'is_ordered']
     search_fields = ['order_number', 'first_name', 'last_name', 'phone', 'email']
     list_per_page = 20
+    inlines = [OrderProductInline]
     
 
 

@@ -192,7 +192,7 @@
                 fetch(url,{
                   method: "POST",
                   headers:{
-                    "content-type": "application/json",
+                    "Content-type": "application/json",
                     "X-CSRFToken":csrftoken,
                   },
                   body : JSON.stringify({
@@ -202,8 +202,11 @@
                     status:details.status,
                   }),
                 })
-                  //.then((response) => response.json())  
-                  //.then((data) => console.log(data));
+                  .then((response) => response.json())  
+                  .then((data) => {
+                    console.log('success: ', data);
+                    console.log('Transaction Completed')
+                  });
               }
   
               // Show a success message within this page, e.g.
@@ -213,8 +216,8 @@
   
               // Or go to another URL:  actions.redirect('thank_you.html');
               
-            });
-          },
+            //});
+         // },
   
           onError: function(err) {
             console.log(err);

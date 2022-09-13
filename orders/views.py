@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from django.http import HttpResponse
+from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from cart.models import CartItem
 from .forms import OrderForm
@@ -7,12 +7,14 @@ import datetime
 from .models import Order, Payment, OrderProduct
 import json
 from store.models import Product
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
 
 
 
 def payments(request):
     body = json.loads(request.body)
-    order = Order.objects.get(user = request.user, is_ordered = False, order_number= body['orderID'])
+    order = Order.objects.get(user = request.user, is_ordered = False, order_number = body['orderID'])
     #store transactions inside payment model
     payment = Payment(
         user = request.user,
@@ -42,18 +44,18 @@ def payments(request):
         orderproduct.is_ordered = True
         orderproduct.save()
         
-        cart_item = CartItem.objects.get(id=item.id)
+        cart_item = CartItem.objects.get(id = item.id)
         product_variation = cart_item.variations.all()
-        orderproduct = OrderProduct.objects.get(id=orderproduct.id)
+        orderproduct = OrderProduct.objects.get(id = orderproduct.id)
         orderproduct.variations.set(product_variation)
         orderproduct.save()
         
     
-    #reduce quantity from stock
+        #reduce quantity from stock
     
-    product = Product.objects.get(id=item.id)
-    product.stock -= item.quantity
-    product.save()
+        product = Product.objects.get(id = item.product_id)
+        product.stock -= item.quantity
+        product.save()
     #clear the cart table after payment
     
     CartItem.objects.filter(user=request.user).delete()
@@ -62,24 +64,24 @@ def payments(request):
     mail_subject = "Thank you for your order"
     message = render_to_string('orders/order_received_email.html',{
         'user':request.user,
-        'order':order
+        'order':order,
     })
     
     to_email = request.user.email
-    send_email = EmailMessage(mail_subject,message, to=[to_email])
+    send_email = EmailMessage(mail_subject, message, to=[to_email])
     send_email.send()
     
     
     #send order number and transaction id back to sendData using json
     data = {
         'order_number':order.order_number,
-        'transID':payment.payment_id,
+        'tranID':payment.payment_id,
     }
     
     return jsonResponse(data)
     
     
-    return render(request,'orders/payments.html')
+    # return render(request,'orders/payments.html')
 
 # Create your views here.
 @csrf_exempt
@@ -141,6 +143,10 @@ def place_order(request, total=0, quantity=0,):
             return render(request,'orders/payments.html', context)  
     else:
         return redirect('checkout')
+     
+    
+def order_complete(request):
+    return render(request, 'orders/order_complete.html')
 
     
    
