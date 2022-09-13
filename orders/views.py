@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from cart.models import CartItem
 from .forms import OrderForm
@@ -78,7 +78,7 @@ def payments(request):
         'tranID':payment.payment_id,
     }
     
-    return jsonResponse(data)
+    return JsonResponse(data)
     
     
     # return render(request,'orders/payments.html')
@@ -146,7 +146,35 @@ def place_order(request, total=0, quantity=0,):
      
     
 def order_complete(request):
-    return render(request, 'orders/order_complete.html')
+    order_number = request.GET.get('order_number')
+    tranID = request.GET.get('payment_id')
+    
+    try:
+        order = Order.objects.get(order_number=order_number, is_ordered=True)
+        ordered_products = OrderProduct.objects.filter(order_id=order.id)
+        
+        subtotal = 0
+        for i in ordered_products:
+            subtotal += i.product_price * i.quantity
+        
+        payment = Payment.objects.get(payment_id=tranID)
+        
+        context = {
+            'order':order,
+            'ordered_products':ordered_products,
+            'order_number': order.order_number,
+            'tranID': payment.payment_id,
+            'payment':payment,
+            'subtotal':subtotal,
+            
+            
+        }
+        return render(request, 'orders/order_complete.html',context)
+    except(Payment.DoesNotExist, Order.DoesNotExist):
+        return redirect("home")
+        
+    
+    
 
     
    
