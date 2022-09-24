@@ -36,7 +36,8 @@ def add_cart(request,product_id):
             if is_cart_item_exist:
                 cart_item = CartItem.objects.filter(product= product,user= current_user)
             
-                ex_var_list = []  #existing variation
+                 #existing variation
+                ex_var_list = []  
                 id = []
                 for item in cart_item:
                     existing_variation = item.variations.all()
@@ -58,7 +59,7 @@ def add_cart(request,product_id):
             if len(product_variation) >0:
                 item.variations.clear()
                 item.variations.add(*product_variation)
-                # item.quantity += 1
+                #item.quantity += 1
                 item.save()
                         
             else :
@@ -67,7 +68,7 @@ def add_cart(request,product_id):
                     item.variations.clear()
                     item.variations.add(*product_variation)
                     item.save()
-        return redirect('cart')
+            return redirect('cart')
         
         #if user is not logged in
     else:
