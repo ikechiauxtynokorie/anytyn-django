@@ -44,6 +44,9 @@
    label:hover ~ input:checked ~ label {
     color: #cc9000;
    }
+   .rating-stars i{
+    color: #ffb503 !important;
+   }
 
 /* rating-list */
 /* .rating-stars {
@@ -87,6 +90,4 @@
     max-width: none;
   }
    */
-  .rating-stars i{
-   color: #ffb503 !important;
-  }
+  
