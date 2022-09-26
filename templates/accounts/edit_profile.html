@@ -16,9 +16,12 @@
                 <strong class="d-inline-block mr-3"> Edit Your Profile </strong>   
             </header>
             <div class="card-body">
+                <div class = "text-right">
+                    <img src="{{ userprofile.profile_picture.url}}" alt="Profile Picture" width = "100" style = "border-radius:50% "; >
+                </div>
                 <div class="row"> 
                     <div class = "col-md-12">
-                      <form action = "" method = "POST">
+                      <form action = "{% url 'edit_profile'%}" method = "POST" enctype = "multipart/form-data">
                         {% csrf_token %}
                         
                         <div class= "form-row">
@@ -66,8 +69,11 @@
                             {{ profile_form.country }}
                             </div>
                         </div>
-                        <input type="sumbit" value ="Save" class = "btn btn-primary">
-                      </form>
+                        <div class="form-group">
+                            <input type="submit" value = "Save" class="btn btn-primary"></button>
+                        </div> <!-- form-group// -->
+                    
+                      </form>  
                        
                     </div>
 
